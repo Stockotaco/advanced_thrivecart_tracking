@@ -95,7 +95,7 @@
       purchase: {
         actionField: {
           id: _thrive_order.order.invoice_id,
-          affiliation: "ThriveCart",
+          affiliation: "",
           revenue: _thrive_order.order.total,
           tax: _thrive_order.order.tax,
           shipping: _thrive_order.order.shipping,
