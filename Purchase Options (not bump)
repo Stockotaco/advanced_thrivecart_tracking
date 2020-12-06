@@ -9,6 +9,7 @@
       id: product.id,
       name: product.name,
       price: product.price,
+      type: product.category,
       quantity: product.quantity,
       event_id: product.event_id,
       currency: _thrive_order.order.currency,
@@ -46,7 +47,7 @@
         "product" +
         "-" +
         _thrive_order.order.product.id,
-      category: "main",
+      category: "product",
     };
     atq(product);
   }
@@ -94,7 +95,7 @@
       purchase: {
         actionField: {
           id: _thrive_order.order.invoice_id,
-          affiliation: "",
+          affiliation: "ThriveCart",
           revenue: _thrive_order.order.total,
           tax: _thrive_order.order.tax,
           shipping: _thrive_order.order.shipping,
