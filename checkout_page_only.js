@@ -1,28 +1,26 @@
-<script>
-  var dataLayer = window.dataLayer || [];
-  var productsArray = [];
-  if (_thrive.product.bump_price) {
-    var bump = {
-      id: "bump-" + _thrive.product.idx,
-      name: "Bump Product",
-      price: +_thrive.product.bump_price,
-      category: "bump",
-    };
-    productsArray.push(bump);
-  }
-  var main = {
-    id: "product-" + _thrive.product.idx,
-    name: _thrive.product.name,
-    price: +_thrive.product.price,
-    category: "main",
+var dataLayer = window.dataLayer || [];
+var productsArray = [];
+if (_thrive.product.bump_price) {
+  var bump = {
+    id: "bump-" + _thrive.product.idx,
+    name: "Bump Product",
+    price: +_thrive.product.bump_price,
+    category: "bump",
   };
-  productsArray.push(main);
-  dataLayer.push({
-    event: "eec.checkout",
-    ecommerce: {
-      detail: {
-        products: productsArray,
-      },
+  productsArray.push(bump);
+}
+var main = {
+  id: "product-" + _thrive.product.idx,
+  name: _thrive.product.name,
+  price: +_thrive.product.price,
+  category: "main",
+};
+productsArray.push(main);
+dataLayer.push({
+  event: "eec.checkout",
+  ecommerce: {
+    detail: {
+      products: productsArray,
     },
-  });
-</script>
+  },
+});
