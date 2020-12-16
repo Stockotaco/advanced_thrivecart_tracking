@@ -25,11 +25,7 @@ if (_thrive_order.order.bump) {
     price: _thrive_order.order.bump.total,
     quantity: _thrive_order.order.bump.quantity,
     event_id:
-      _thrive_order.order.invoice_id +
-      "-" +
-      "bump" +
-      "-" +
-      _thrive_order.order.bump.id,
+      _thrive_order.order.id + "-" + "bump" + "-" + _thrive_order.order.bump.id,
     category: "bump",
   };
   atq(bump);
@@ -41,7 +37,7 @@ if (_thrive_order.order.product) {
     price: _thrive_order.order.product.total,
     quantity: _thrive_order.order.product.quantity,
     event_id:
-      _thrive_order.order.invoice_id +
+      _thrive_order.order.id +
       "-" +
       "product" +
       "-" +
@@ -58,7 +54,7 @@ if (_thrive_order.order.upsells) {
       price: _thrive_order.order.upsells[keys].total,
       quantity: _thrive_order.order.upsells[keys].quantity,
       event_id:
-        _thrive_order.order.invoice_id +
+        _thrive_order.order.id +
         "-" +
         "upsell" +
         "-" +
@@ -76,7 +72,7 @@ if (_thrive_order.order.downsells) {
       price: _thrive_order.order.downsells[keys].total,
       quantity: _thrive_order.order.downsells[keys].quantity,
       event_id:
-        _thrive_order.order.invoice_id +
+        _thrive_order.order.id +
         "-" +
         "downsell" +
         "-" +
@@ -93,7 +89,7 @@ dataLayer.push({
     currencyCode: _thrive_order.order.currency,
     purchase: {
       actionField: {
-        id: _thrive_order.order.invoice_id,
+        id: _thrive_order.id,
         affiliation: "",
         revenue: _thrive_order.order.total,
         tax: _thrive_order.order.tax,
