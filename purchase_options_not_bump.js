@@ -89,7 +89,7 @@ dataLayer.push({
     currencyCode: _thrive_order.order.currency,
     purchase: {
       actionField: {
-        id: _thrive_order.id,
+        id: _thrive_order.order.id,
         affiliation: "",
         revenue: _thrive_order.order.total,
         tax: _thrive_order.order.tax,
