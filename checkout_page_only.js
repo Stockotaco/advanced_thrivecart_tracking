@@ -18,7 +18,7 @@ var main = {
 productsArray.push(main);
 dataLayer.push({
   event: "eec.checkout",
-  event_id: makeid(10),
+  capi_event_id: makeid(10),
   ecommerce: {
     detail: {
       products: productsArray,
