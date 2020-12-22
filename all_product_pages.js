@@ -13,7 +13,7 @@ if (_thrive.offer) {
   var dataLayer = window.dataLayer || [];
   dataLayer.push({
     event: "eec." + _thrive.offer.type,
-    event_id: makeid(10),
+    capi_event_id: makeid(10),
     ecommerce: {
       detail: {
         products: [
