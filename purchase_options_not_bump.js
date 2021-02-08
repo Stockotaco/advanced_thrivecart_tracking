@@ -21,7 +21,7 @@ function atq(product) {
 		price: product.price,
 		type: product.category,
 		quantity: product.quantity,
-		event_id: product.capi_event_id,
+		event_id: product.event_id,
 		currency: _thrive_order.order.currency,
 		fullName: customerFullName,
 		first_name: customerFullName.split(' ').slice(0, -1).join(' '),

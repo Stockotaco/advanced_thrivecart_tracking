@@ -22,6 +22,7 @@ if (_thrive.offer) {
             id: _thrive.offer.type + "-" + _thrive.offer.offer.id,
             price: _thrive.offer.price / 100,
             category: _thrive.offer.type,
+            quantity: 1
           },
         ],
       },

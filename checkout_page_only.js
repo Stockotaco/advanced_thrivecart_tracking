@@ -17,14 +17,16 @@ if (_thrive.product.bump_price) {
     name: "Bump Product",
     price: +_thrive.product.bump_price,
     category: "bump",
+    quantity: 1
   };
   productsArray.push(bump);
 }
 var main = {
-  id: "product-" + _thrive.product.idx,
-  name: _thrive.product.name,
-  price: +_thrive.product.price,
-  category: "main",
+	id: "product-" + _thrive.product.idx,
+	name: _thrive.product.name,
+	price: +_thrive.product.price,
+	category: "main",
+	quantity: 1
 };
 productsArray.push(main);
 dataLayer.push({
