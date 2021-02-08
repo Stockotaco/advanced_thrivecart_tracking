@@ -1,3 +1,14 @@
+function makeid(length) {
+	var result = '';
+	var characters =
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var charactersLength = characters.length;
+	for (var i = 0; i < length; i++) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
+}
+
 var products = [];
 customerFullName = _thrive_order.customer.name;
 customerEmail = _thrive_order.customer.email;
@@ -10,7 +21,7 @@ function atq(product) {
 		price: product.price,
 		type: product.category,
 		quantity: product.quantity,
-		capi_event_id: product.capi_event_id,
+		event_id: product.capi_event_id,
 		currency: _thrive_order.order.currency,
 		fullName: customerFullName,
 		first_name: customerFullName.split(' ').slice(0, -1).join(' '),
@@ -24,7 +35,7 @@ if (_thrive_order.order.bump) {
 		name: _thrive_order.order.bump.name,
 		price: _thrive_order.order.bump.total,
 		quantity: _thrive_order.order.bump.quantity,
-		capi_event_id:
+		event_id:
 			_thrive_order.order.id + '-' + 'bump' + '-' + _thrive_order.order.bump.id,
 		category: 'bump',
 	};
@@ -36,7 +47,7 @@ if (_thrive_order.order.product) {
 		name: _thrive_order.order.product.name,
 		price: _thrive_order.order.product.total,
 		quantity: _thrive_order.order.product.quantity,
-		capi_event_id:
+		event_id:
 			_thrive_order.order.id +
 			'-' +
 			'product' +
@@ -53,7 +64,7 @@ if (_thrive_order.order.upsells) {
 			name: _thrive_order.order.upsells[keys].name,
 			price: _thrive_order.order.upsells[keys].total,
 			quantity: _thrive_order.order.upsells[keys].quantity,
-			capi_event_id:
+			event_id:
 				_thrive_order.order.id +
 				'-' +
 				'upsell' +
@@ -71,7 +82,7 @@ if (_thrive_order.order.downsells) {
 			name: _thrive_order.order.downsells[keys].name,
 			price: _thrive_order.order.downsells[keys].total,
 			quantity: _thrive_order.order.downsells[keys].quantity,
-			capi_event_id:
+			event_id:
 				_thrive_order.order.id +
 				'-' +
 				'downsell' +
@@ -85,6 +96,7 @@ if (_thrive_order.order.downsells) {
 window.dataLayer = window.dataLayer || [];
 dataLayer.push({
 	event: 'eec.transactionComplete',
+	event_id: makeid(30),
 	ecommerce: {
 		currencyCode: _thrive_order.order.currency,
 		purchase: {

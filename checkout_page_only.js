@@ -8,6 +8,7 @@ function makeid(length) {
   }
   return result;
 }
+
 var dataLayer = window.dataLayer || [];
 var productsArray = [];
 if (_thrive.product.bump_price) {
@@ -28,7 +29,7 @@ var main = {
 productsArray.push(main);
 dataLayer.push({
   event: "eec.checkout",
-  capi_event_id: makeid(15),
+  event_id: makeid(30),
   ecommerce: {
     detail: {
       products: productsArray,
