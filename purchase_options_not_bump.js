@@ -16,7 +16,6 @@ function atq(product) {
   products.push(product), (window.dataLayer = window.dataLayer || []);
   window.dataLayer.push({
     event: "purchase",
-    event_id: makeid(32),
     id: product.id,
     name: product.name,
     price: product.price,
