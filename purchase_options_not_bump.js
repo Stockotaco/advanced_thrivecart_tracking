@@ -36,7 +36,13 @@ if (_thrive_order.order.bump) {
     price: _thrive_order.order.bump.total,
     quantity: _thrive_order.order.bump.quantity,
     event_id:
-      _thrive_order.order.id + "-" + "bump" + "-" + _thrive_order.order.bump.id,
+      "tc-" +
+      _thrive_order.order.id +
+      "-" +
+      "bump" +
+      "-" +
+      _thrive_order.order.bump.id +
+      "-initial",
     category: "bump",
   };
   atq(bump);
@@ -48,11 +54,13 @@ if (_thrive_order.order.product) {
     price: _thrive_order.order.product.total,
     quantity: _thrive_order.order.product.quantity,
     event_id:
+      "tc-" +
       _thrive_order.order.id +
       "-" +
       "product" +
       "-" +
-      _thrive_order.order.product.id,
+      _thrive_order.order.product.id +
+      "-initial",
     category: "product",
   };
   atq(product);
@@ -65,11 +73,13 @@ if (_thrive_order.order.upsells) {
       price: _thrive_order.order.upsells[keys].total,
       quantity: _thrive_order.order.upsells[keys].quantity,
       event_id:
+        "tc-" +
         _thrive_order.order.id +
         "-" +
         "upsell" +
         "-" +
-        _thrive_order.order.upsells[keys].id,
+        _thrive_order.order.upsells[keys].id +
+        "-initial",
       category: "upsell",
     };
     atq(product);
@@ -83,11 +93,13 @@ if (_thrive_order.order.downsells) {
       price: _thrive_order.order.downsells[keys].total,
       quantity: _thrive_order.order.downsells[keys].quantity,
       event_id:
+        "tc-" +
         _thrive_order.order.id +
         "-" +
         "downsell" +
         "-" +
-        _thrive_order.order.downsells[keys].id,
+        _thrive_order.order.downsells[keys].id +
+        "-initial",
       category: "downsell",
     };
     atq(product);
@@ -101,12 +113,12 @@ dataLayer.push({
     currencyCode: _thrive_order.order.currency,
     purchase: {
       actionField: {
-        id: _thrive_order.order.id,
+        id: "tc-" + _thrive_order.order.id + "-initial",
         affiliation: "",
         revenue: _thrive_order.order.total,
         tax: _thrive_order.order.tax,
         shipping: _thrive_order.order.shipping,
-        discount: "0.00",
+        discount: "0",
         coupon: "",
       },
       products: products,
