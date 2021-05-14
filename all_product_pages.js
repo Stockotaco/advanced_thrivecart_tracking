@@ -15,6 +15,7 @@ if (_thrive.offer) {
     event: "eec." + _thrive.offer.type,
     event_id: makeid(30),
     ecommerce: {
+      currencyCode: _thrive.product.currency,
       detail: {
         products: [
           {
@@ -22,7 +23,7 @@ if (_thrive.offer) {
             id: _thrive.offer.type + "-" + _thrive.offer.offer.id,
             price: _thrive.offer.price / 100,
             category: _thrive.offer.type,
-            quantity: 1
+            quantity: 1,
           },
         ],
       },

@@ -33,6 +33,7 @@ dataLayer.push({
   event: "eec.checkout",
   event_id: makeid(30),
   ecommerce: {
+    currencyCode: _thrive.product.currency,
     detail: {
       products: productsArray,
     },
