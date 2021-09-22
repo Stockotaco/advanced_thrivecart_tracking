@@ -114,12 +114,12 @@ dataLayer.push({
     purchase: {
       actionField: {
         id: "tc-" + _thrive_order.order.id + "-initial",
-        affiliation: "",
+        affiliation: "Online Store",
         revenue: _thrive_order.order.total,
         tax: _thrive_order.order.tax,
-        shipping: _thrive_order.order.shipping,
-        discount: "0",
-        coupon: "",
+        shipping: makeNumber(_thrive_order.order.shipping),
+        discount: 0,
+        coupon: null,
       },
       products: products,
     },
