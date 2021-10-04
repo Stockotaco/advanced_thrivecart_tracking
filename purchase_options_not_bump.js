@@ -117,7 +117,7 @@ dataLayer.push({
         affiliation: "Online Store",
         revenue: _thrive_order.order.total,
         tax: _thrive_order.order.tax,
-        shipping: makeNumber(_thrive_order.order.shipping),
+        shipping: _thrive_order.order.shipping,
         discount: 0,
         coupon: null,
       },
