@@ -11,7 +11,7 @@ var waitInterval = 3;
       }
       return null;
     },
-    updateFrames = function () {
+    updateFrames = () => {
       frames.forEach(function (frame) {
         var url = new URL(frame.src),
           qs = new URLSearchParams(url.search),
@@ -29,8 +29,8 @@ var waitInterval = 3;
         update && ((url.search = qs.toString()), (frame.src = url.toString()));
       });
     },
-    awaitNode = function (params) {
-      return new MutationObserver(function (mutations) {
+    awaitNode = (params) =>
+      new MutationObserver(function (mutations) {
         var elem = document.querySelector(
           params.selector + ":not(.fbpfbc_checked)"
         );
@@ -38,8 +38,7 @@ var waitInterval = 3;
       }).observe(params.parent || document, {
         subtree: true,
         childList: true,
-      });
-    },
+      }),
     frame_selector = `iframe[src*="${iframesource}"]`,
     frames = [],
     cookies = {};
