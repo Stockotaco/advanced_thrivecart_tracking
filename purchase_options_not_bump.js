@@ -9,9 +9,44 @@ function makeid(length) {
   return result;
 }
 
+function standardize(input){
+  return input.trim().toLowerCase();
+}
+
+
+
 var products = [];
 customerFullName = _thrive_order.customer.name;
-customerEmail = _thrive_order.customer.email;
+
+var user_data = {};
+var address = {};
+user_data.email = standardize(_thrive.customer.email);
+user_data.phone_number = standardize(_thrive.customer.contactno);
+address.first_name = standardize(_thrive.customer.firstname);
+address.last_name = standardize(_thrive.customer.lastname);
+address.street = standardize(_thrive.customer.address.line1);
+address.city = standardize(_thrive.customer.address.city);
+address.region = standardize(_thrive.customer.address.state);
+address.postal_code = standardize(_thrive.customer.address.zip);
+address.country = standardize(_thrive.customer.address.country);
+user_data.address = address;
+
+dataLayer = window.dataLayer || [];
+dataLayer.push({
+  event: "user_data",
+  user_data: user_data,
+  meta_details: {
+    customer_id: _thrive.custoemr.id,
+    custom_fields: _thrive.customer.custom_fields,
+    client_meta_fbc: _thrive.customer.client_meta_fbc,
+    client_meta_fbp: _thrive.customer.client_meta_fbp,
+    client_user_agent: _thrive.customer.client_user_agent,
+    ip_address: _thrive.customer.ip_address,
+    optin: _thrive.customer.optin,
+    terms_and_conditions: _thrive.customer.tandc
+  }
+});
+
 function atq(product) {
   products.push(product), (window.dataLayer = window.dataLayer || []);
   window.dataLayer.push({
@@ -22,11 +57,7 @@ function atq(product) {
     type: product.category,
     quantity: product.quantity,
     event_id: product.event_id,
-    currency: _thrive_order.order.currency,
-    full_name: customerFullName,
-    first_name: customerFullName.split(" ").slice(0, -1).join(" "),
-    last_name: customerFullName.split(" ").slice(-1).join(" "),
-    email: customerEmail,
+    currency: _thrive_order.order.currency
   });
 }
 if (_thrive_order.order.bump) {
@@ -135,7 +166,7 @@ dataLayer.push({
     affiliation: "Online Store",
     value: _thrive_order.order.total,
     tax: _thrive_order.order.tax,
-    shipping: _thrive_order.order.shipping,
+    shipping: Number(_thrive_order.order.shipping),
     discount: 0,
     coupon: null,
     items: products.map(function (product) {
