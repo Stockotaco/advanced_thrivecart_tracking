@@ -11,6 +11,7 @@ function makeid(length) {
 
 var dataLayer = window.dataLayer || [];
 var productsArray = [];
+var itemsArray = [];
 if (_thrive.product.bump_price) {
   var bump = {
     id: "bump-" + _thrive.product.idx,
@@ -19,16 +20,32 @@ if (_thrive.product.bump_price) {
     category: "bump",
     quantity: 1
   };
+  var bumpGa4 = {
+    item_id: "bump-" + _thrive.product.idx,
+    item_name: "Bump Product",
+    price: +_thrive.product.bump_price,
+    item_category: "bump",
+    quantity: 1
+  };
   productsArray.push(bump);
+  itemsArray.push(bumpGa4);
 }
 var main = {
-	id: "product-" + _thrive.product.idx,
-	name: _thrive.product.name,
-	price: +_thrive.product.price,
-	category: "main",
-	quantity: 1
+  id: "product-" + _thrive.product.idx,
+  name: _thrive.product.name,
+  price: +_thrive.product.price,
+  category: "main",
+  quantity: 1
 };
+var mainGa4 = {
+  item_id: "product-" + _thrive.product.idx,
+  item_name: _thrive.product.name,
+  price: +_thrive.product.price,
+  item_category: "main",
+  quantity: 1
+}
 productsArray.push(main);
+itemsArray.push(mainGa4);
 dataLayer.push({
   event: "eec.checkout",
   event_id: makeid(30),
@@ -38,4 +55,13 @@ dataLayer.push({
       products: productsArray,
     },
   },
+});
+dataLayer.push({ ecommerce: null });
+dataLayer.push({
+  event: 'begin_checkout',
+  event_id: makeid(30),
+  ecommerce: {
+    currency: _thrive.product.currency,
+    items: itemsArray
+  }
 });

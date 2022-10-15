@@ -29,4 +29,19 @@ if (_thrive.offer) {
       },
     },
   });
+  dataLayer.push({ ecommerce: null });
+  dataLayer.push({
+    event: 'view_item',
+    event_id: makeid(30),
+    ecommerce: {
+      currency: _thrive.product.currency,
+      items: [{
+        item_id: _thrive.offer.type + "-" + _thrive.offer.offer.id,
+        item_name: _thrive.offer.name,
+        item_price: _thrive.offer.price / 100,
+        item_quantity: 1,
+        item_category: _thrive.offer.type
+      }]
+    }
+  });
 }

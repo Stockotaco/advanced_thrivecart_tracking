@@ -15,7 +15,7 @@ customerEmail = _thrive_order.customer.email;
 function atq(product) {
   products.push(product), (window.dataLayer = window.dataLayer || []);
   window.dataLayer.push({
-    event: "purchase",
+    event: "purchase_item",
     id: product.id,
     name: product.name,
     price: product.price,
@@ -123,5 +123,29 @@ dataLayer.push({
       },
       products: products,
     },
+  },
+});
+dataLayer.push({ ecommerce: null });
+dataLayer.push({
+  event: "purchase",
+  event_id: makeid(30),
+  ecommerce: {
+    currency: _thrive_order.order.currency,
+    transaction_id: "tc-" + _thrive_order.order.id + "-initial",
+    affiliation: "Online Store",
+    value: _thrive_order.order.total,
+    tax: _thrive_order.order.tax,
+    shipping: _thrive_order.order.shipping,
+    discount: 0,
+    coupon: null,
+    items: products.map(function (product) {
+      return {
+        item_id: product.id,
+        item_name: product.name,
+        price: product.price,
+        item_category: product.category,
+        quantity: product.quantity
+      }
+    })
   },
 });
