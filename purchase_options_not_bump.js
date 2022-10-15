@@ -13,11 +13,7 @@ function standardize(input){
   return input.trim().toLowerCase();
 }
 
-
-
 var products = [];
-customerFullName = _thrive_order.customer.name;
-
 var user_data = {};
 var address = {};
 user_data.email = standardize(_thrive.customer.email);
@@ -36,7 +32,7 @@ dataLayer.push({
   event: "user_data",
   user_data: user_data,
   meta_details: {
-    customer_id: _thrive.custoemr.id,
+    customer_id: _thrive.customer.id,
     custom_fields: _thrive.customer.custom_fields,
     client_meta_fbc: _thrive.customer.client_meta_fbc,
     client_meta_fbp: _thrive.customer.client_meta_fbp,
