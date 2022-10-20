@@ -9,8 +9,9 @@ function makeid(length) {
   return result;
 }
 
-function standardize(input){
-  return input.trim().toLowerCase();
+function standardize(input) {
+  if (input == null || undefined) return input;
+  else return input.trim().toLowerCase();
 }
 
 var products = [];
@@ -46,7 +47,7 @@ dataLayer.push({
 function atq(product) {
   products.push(product), (window.dataLayer = window.dataLayer || []);
   window.dataLayer.push({
-    event: "purchase_item",
+    event: "transaction_item",
     id: product.id,
     name: product.name,
     price: product.price,
