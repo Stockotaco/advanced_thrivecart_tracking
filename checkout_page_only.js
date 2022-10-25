@@ -56,6 +56,15 @@ dataLayer.push({
     },
   },
 });
+// dataLayer.push({ ecommerce: null });
+// dataLayer.push({
+//   event: 'view_item',
+//   event_id: makeid(30),
+//   ecommerce: {
+//     currency: _thrive.product.currency,
+//     items: itemsArray
+//   }
+// });
 dataLayer.push({ ecommerce: null });
 dataLayer.push({
   event: 'begin_checkout',
