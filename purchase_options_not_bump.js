@@ -89,7 +89,7 @@ if (_thrive_order.order.product) {
       "-" +
       _thrive_order.order.product.id +
       "-initial",
-    category: "product",
+    category: "main",
   };
   atq(product);
 }
