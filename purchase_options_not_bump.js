@@ -33,6 +33,7 @@ dataLayer.push({
   event: "user_data",
   user_data: user_data,
   meta_details: {
+    affiliate_id: _thrive_order.order.affiliate_id,
     customer_id: _thrive.customer.id,
     custom_fields: _thrive.customer.custom_fields,
     client_meta_fbc: _thrive.customer.client_meta_fbc,
@@ -51,6 +52,7 @@ function atq(product) {
     id: product.id,
     name: product.name,
     price: product.price,
+    purchase_type: product.purchase_type,
     type: product.category,
     quantity: product.quantity,
     event_id: product.event_id,
@@ -62,6 +64,7 @@ if (_thrive_order.order.bump) {
     id: "bump-" + _thrive_order.order.bump.id,
     name: _thrive_order.order.bump.name,
     price: _thrive_order.order.bump.total,
+    purchase_type: _thrive_order.order.bump.purchase_type,
     quantity: _thrive_order.order.bump.quantity,
     event_id:
       "tc-" +
@@ -80,6 +83,7 @@ if (_thrive_order.order.product) {
     id: "product-" + _thrive_order.order.product.id,
     name: _thrive_order.order.product.name,
     price: _thrive_order.order.product.total,
+    purchase_type: _thrive_order.order.product.purchase_type,
     quantity: _thrive_order.order.product.quantity,
     event_id:
       "tc-" +
@@ -99,6 +103,7 @@ if (_thrive_order.order.upsells) {
       id: "upsell-" + _thrive_order.order.upsells[keys].id,
       name: _thrive_order.order.upsells[keys].name,
       price: _thrive_order.order.upsells[keys].total,
+      purchase_type: _thrive_order.order.upsells[keys].purchase_type,
       quantity: _thrive_order.order.upsells[keys].quantity,
       event_id:
         "tc-" +
@@ -119,6 +124,7 @@ if (_thrive_order.order.downsells) {
       id: "downsell-" + _thrive_order.order.downsells[keys].id,
       name: _thrive_order.order.downsells[keys].name,
       price: _thrive_order.order.downsells[keys].total,
+      purchase_type: _thrive_order.order.downsells[keys].purchase_type,
       quantity: _thrive_order.order.downsells[keys].quantity,
       event_id:
         "tc-" +
@@ -147,7 +153,7 @@ dataLayer.push({
         tax: _thrive_order.order.tax,
         shipping: _thrive_order.order.shipping,
         discount: 0,
-        coupon: null,
+        coupon: localStorage.getItem('thrive_coupon'),
       },
       products: products,
     },
@@ -165,7 +171,7 @@ dataLayer.push({
     tax: _thrive_order.order.tax,
     shipping: Number(_thrive_order.order.shipping),
     discount: 0,
-    coupon: null,
+    coupon: localStorage.getItem('thrive_coupon'),
     items: products.map(function (product) {
       return {
         item_id: product.id,
@@ -177,5 +183,22 @@ dataLayer.push({
     })
   },
 });
+let subscription_items = products.filter(function (item) { return item.purchase_type === "subscription" })
+if (subscription_items.length >= 1) {
+  let value = subscription_items.reduce(function (prev, item) {
+    return prev + item.price * item.quantity || 1
+  }, 0)
+  dataLayer.push({ ecommerce: null });
+  dataLayer.push({
+    event: "subscribe",
+    event_id: makeid(30),
+    ecommerce: {
+      currency: _thrive_order.order.currency,
+      value: value,
+      predicted_ltv: value * 6,
+      items: subscription_items
+    },
+  });
+};
 
-// gtag('set', 'user_data', user_data);
+localStorage.removeItem('thrive_coupon');

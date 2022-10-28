@@ -74,3 +74,10 @@ dataLayer.push({
     items: itemsArray
   }
 });
+
+document.querySelectorAll('[class*="fields_control_next"] button').forEach(function (e) {
+  e.addEventListener("click", function () {
+    console.log('value is: ', String(document.querySelectorAll('.coupon-field')[0].value))
+    localStorage.setItem("thrive_coupon", String(document.querySelectorAll('.coupon-field')[0].value))
+  })
+})
