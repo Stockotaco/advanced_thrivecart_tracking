@@ -194,6 +194,7 @@ if (subscription_items.length >= 1) {
     event_id: makeid(30),
     ecommerce: {
       currency: _thrive_order.order.currency,
+      transaction_id: "tc-" + _thrive_order.order.id + "-initial",
       value: value,
       predicted_ltv: value * 6,
       items: subscription_items
