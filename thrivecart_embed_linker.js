@@ -1,3 +1,6 @@
+/*
+ThriveCart Embed Linker provided by Better Than Data. 
+*/
 var iframesource = "thrivecart.com";
 var waitInterval = 3;
 (function () {

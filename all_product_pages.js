@@ -1,3 +1,6 @@
+/*
+ThriveCart product page dataLayer provided by Better Than Data. 
+*/
 function makeid(length) {
   var result = "";
   var characters =
