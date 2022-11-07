@@ -35,6 +35,9 @@ var waitInterval = 3;
         if (cookies.uid && qs.get("passthrough[uid]") !== cookies.uid)
           update = void qs.set("passthrough[uid]", cookies.uid) || 1;
 
+        if (cookies.uid && qs.get("cluid") !== cookies.uid)
+          update = void qs.set("cluid", cookies.uid) || 1;
+
         update && ((url.search = qs.toString()), (frame.src = url.toString()));
       });
     },
