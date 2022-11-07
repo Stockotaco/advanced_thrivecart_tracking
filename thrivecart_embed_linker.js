@@ -29,6 +29,9 @@ var waitInterval = 3;
         if (cookies._ga && qs.get("passthrough[_ga]") !== cookies._ga)
           update = void qs.set("passthrough[_ga]", cookies._ga) || 1;
 
+        if (cookies._ga && qs.get("_ga") !== cookies._ga)
+          update = void qs.set("_ga", cookies._ga) || 1;
+
         if (cookies.uid && qs.get("passthrough[uid]") !== cookies.uid)
           update = void qs.set("passthrough[uid]", cookies.uid) || 1;
 
@@ -91,29 +94,29 @@ var waitInterval = 3;
       }
 
       if (+new Date() - intstart > 20000) return clearInterval(pinterval);
+    }, 200),
+
+    gainterval = setInterval(function () {
+      if (!getCookie("_ga")) return;
+      if (+new Date() - intstart < 1 * waitInterval) return;
+      if (getCookie("_ga")) {
+        cookies._ga = getCookie("_ga");
+        updateFrames();
+        return clearInterval(gainterval);
+      }
+
+      if (+new Date() - intstart > 20000) return clearInterval(gainterval);
+    }, 200),
+
+    uinterval = setInterval(function () {
+      if (!((window.CLabsgbVar || {}).generalProps || {}).uid) return;
+      if (+new Date() - intstart < 1 * waitInterval) return;
+      if (((window.CLabsgbVar || {}).generalProps || {}).uid) {
+        cookies.uid = ((window.CLabsgbVar || {}).generalProps || {}).uid;
+        updateFrames();
+        return clearInterval(uinterval);
+      }
+
+      if (+new Date() - intstart > 20000) return clearInterval(uinterval);
     }, 200);
-
-  gainterval = setInterval(function () {
-    if (!getCookie("_ga")) return;
-    if (+new Date() - intstart < 1 * waitInterval) return;
-    if (getCookie("_ga")) {
-      cookies._fbp = getCookie("_ga");
-      updateFrames();
-      return clearInterval(gainterval);
-    }
-
-    if (+new Date() - intstart > 20000) return clearInterval(gainterval);
-  }, 200);
-  
-  uinterval = setInterval(function () {
-    if (!((window.CLabsgbVar || {}).generalProps || {}).uid) return;
-    if (+new Date() - intstart < 1 * waitInterval) return;
-    if (((window.CLabsgbVar || {}).generalProps || {}).uid) {
-      cookies.uid = ((window.CLabsgbVar || {}).generalProps || {}).uid;
-      updateFrames();
-      return clearInterval(uinterval);
-    }
-
-    if (+new Date() - intstart > 20000) return clearInterval(uinterval);
-  }, 200);
 })();
