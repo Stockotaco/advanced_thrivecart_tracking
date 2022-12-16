@@ -145,7 +145,7 @@ if (_thrive_order.order.downsells) {
 window.dataLayer = window.dataLayer || [];
 dataLayer.push({
   event: "eec.transactionComplete",
-  event_id: makeid(30),
+  event_id: makeid(32),
   ecommerce: {
     currencyCode: _thrive_order.order.currency,
     purchase: {
@@ -165,7 +165,7 @@ dataLayer.push({
 dataLayer.push({ ecommerce: null });
 dataLayer.push({
   event: "purchase",
-  event_id: makeid(30),
+  event_id: makeid(32),
   ecommerce: {
     currency: _thrive_order.order.currency,
     transaction_id: "tc-" + _thrive_order.order.id + "-initial",
@@ -194,7 +194,7 @@ if (subscription_items.length >= 1) {
   dataLayer.push({ ecommerce: null });
   dataLayer.push({
     event: "subscribe",
-    event_id: makeid(30),
+    event_id: makeid(32),
     ecommerce: {
       currency: _thrive_order.order.currency,
       transaction_id: "tc-" + _thrive_order.order.id + "-initial",
