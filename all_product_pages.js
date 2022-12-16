@@ -16,7 +16,7 @@ if (_thrive.offer) {
   var dataLayer = window.dataLayer || [];
   dataLayer.push({
     event: "eec." + _thrive.offer.type,
-    event_id: makeid(30),
+    event_id: makeid(32),
     ecommerce: {
       currencyCode: _thrive.product.currency,
       detail: {
@@ -35,7 +35,7 @@ if (_thrive.offer) {
   dataLayer.push({ ecommerce: null });
   dataLayer.push({
     event: 'view_item',
-    event_id: makeid(30),
+    event_id: makeid(32),
     ecommerce: {
       currency: _thrive.product.currency,
       items: [{

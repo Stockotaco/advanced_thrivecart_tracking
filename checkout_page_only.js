@@ -51,7 +51,7 @@ productsArray.push(main);
 itemsArray.push(mainGa4);
 dataLayer.push({
   event: "eec.checkout",
-  event_id: makeid(30),
+  event_id: makeid(32),
   ecommerce: {
     currencyCode: _thrive.product.currency,
     detail: {
@@ -62,7 +62,7 @@ dataLayer.push({
 // dataLayer.push({ ecommerce: null });
 // dataLayer.push({
 //   event: 'view_item',
-//   event_id: makeid(30),
+//   event_id: makeid(32),
 //   ecommerce: {
 //     currency: _thrive.product.currency,
 //     items: itemsArray
@@ -71,7 +71,7 @@ dataLayer.push({
 dataLayer.push({ ecommerce: null });
 dataLayer.push({
   event: 'begin_checkout',
-  event_id: makeid(30),
+  event_id: makeid(32),
   ecommerce: {
     currency: _thrive.product.currency,
     items: itemsArray
