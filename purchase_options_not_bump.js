@@ -20,7 +20,7 @@ function standardize(input) {
 var products = [];
 var user_data = {};
 var address = {};
-user_data.email = standardize(_thrive.customer.email); // required https://support.google.com/google-ads/answer/10172785#zippy=%2Cenable-enhanced-conversions-in-google-tag-manager%2Cidentify-and-define-your-enhanced-conversions-variables%2Cpre-hashed-data-is-being-provided-in-your-enhanced-conversions%2Cvariables-werent-successfully-implemented-for-enhanced-conversions%2Ccode-copying-errors%2Cfind-enhanced-conversions-variables-on-your-conversion-page%2Cidentify-enhanced-conversions-css-selectors-and-input-into-google-tag-manager:~:text=Address%20(first%20name%2C%20last%20name%2C%20postal%20code%2C%20country%20are%20required%20if%20you%20choose%20to%20use%20this%20data)
+user_data.email = standardize(_thrive.customer.email); // required https://support.google.com/google-ads/answer/10172785#zippy=%2Cenable-enhanced-conversions-in-google-tag-manager%2Cidentify-and-define-your-enhanced-conversions-variables%2Cpre-hashed-data-is-being-provided-in-your-enhanced-conversions%2Cvariables-werent-successfully-implemented-for-enhanced-conversions%2Ccode-copying-errors%2Cfind-enhanced-conversions-variables-on-your-conversion-page%2Cidentify-enhanced-conversions-css-selectors-and-input-into-google-tag-manager%2Cenable-enhanced-conversions-in-google-tag-manager-and-create-custom-javascript-variable:~:text=the%20next%20section).-,Note%3A%20At%20least%20one%20of%20the%20following%20fields%20must%20be,number%20(optional)%20%2D%20Along%20with%20an%20email%2C%20or%20full%20name%20and%20address.,-The%20table%20below
 user_data.phone_number = standardize(_thrive.customer.contactno);
 address.first_name = standardize(_thrive.customer.firstname); // required
 address.last_name = standardize(_thrive.customer.lastname); // required
@@ -186,7 +186,15 @@ dataLayer.push({
     })
   },
 });
-let subscription_items = products.filter(function (item) { return item.purchase_type === "subscription" })
+let subscription_items = products.filter(function (item) { return item.purchase_type === "subscription" }).map(function (product) {
+  return {
+    item_id: product.id,
+    item_name: product.name,
+    price: product.price,
+    item_category: product.category,
+    quantity: product.quantity
+  }
+})
 if (subscription_items.length >= 1) {
   let value = subscription_items.reduce(function (prev, item) {
     return prev + item.price * item.quantity || 1
