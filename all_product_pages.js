@@ -40,14 +40,14 @@ dataLayer.push({
   //event: "user_data",
   user_data: user_data,
   meta_details: {
-    customer_id: _thrive.customer.id,
-    custom_fields: _thrive.customer.custom_fields,
-    client_meta_fbc: _thrive.customer.client_meta_fbc,
-    client_meta_fbp: _thrive.customer.client_meta_fbp,
-    client_user_agent: _thrive.customer.client_user_agent,
-    ip_address: _thrive.customer.ip_address,
-    optin: _thrive.customer.optin,
-    terms_and_conditions: _thrive.customer.tandc
+    customer_id: _thrive?.customer?.id,
+    custom_fields: _thrive?.customer?.custom_fields,
+    client_meta_fbc: _thrive?.customer?.client_meta_fbc,
+    client_meta_fbp: _thrive?.customer?.client_meta_fbp,
+    client_user_agent: _thrive?.customer?.client_user_agent,
+    ip_address: _thrive?.customer?.ip_address,
+    optin: _thrive?.customer?.optin,
+    terms_and_conditions: _thrive?.customer?.tandc
   }
 });
 
