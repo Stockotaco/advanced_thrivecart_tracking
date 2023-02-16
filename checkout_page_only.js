@@ -78,9 +78,55 @@ dataLayer.push({
   }
 });
 
+window.addEventListener('load', function () {
+
+  var product_id = +_thrive.product.idx
+  var passthrough = _thrive.user.passthrough[product_id];
+  if (getCookie("_ga")) passthrough.ga = getCookie("_ga").substr(6);
+  if (getCookie2("_ga_")) passthrough.gas = getCookie2("_ga_").substr(6);
+  if (getCookie("_fbc")) passthrough.fbc = getCookie("_fbc");
+  if (getCookie("_ch_utm_source")) passthrough.fbc = getCookie("_ch_utm_source");
+  if (getCookie("_ch_utm_medium")) passthrough.fbc = getCookie("_ch_utm_medium");
+  if (getCookie("_ch_utm_campaign")) passthrough.fbc = getCookie("_ch_utm_campaign");
+  if (getCookie("_ch_utm_content")) passthrough.fbc = getCookie("_ch_utm_content");
+  if (getCookie("_ch_utm_term")) passthrough.fbc = getCookie("_ch_utm_term");
+  if (getCookie("_ch_utm_id")) passthrough.fbc = getCookie("_ch_utm_id");
+  if (getQueryStringValue("cluid") || window?.CLabsgbVar?.generalProps?.uid) passthrough.cluid = getQueryStringValue("cluid") || CLabsgbVar.generalProps.uid;
+
+});
+
 document.querySelectorAll('[class*="fields_control_next"] button').forEach(function (e) {
   e.addEventListener("click", function () {
     console.log('coupon name is: ', String(document.querySelectorAll('.coupon-field')[0].value))
     localStorage.setItem("thrive_coupon", String(document.querySelectorAll('.coupon-field')[0].value))
   })
 })
+
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.split('=')[0] === name) {
+      return decodeURIComponent(cookie.substring(name.length + 1));
+    }
+  }
+  return null;
+}
+
+function getCookie2(name) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(name) && cookie.substring(name.length).indexOf('=') !== -1) {
+      const valueStart = cookie.indexOf('=', name.length) + 1;
+      return decodeURIComponent(cookie.substring(valueStart, cookie.length));
+    }
+  }
+  return null;
+}
+
+function getQueryStringValue(key) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(key);
+}
