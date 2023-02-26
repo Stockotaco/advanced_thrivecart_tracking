@@ -82,28 +82,36 @@ window.addEventListener('load', function () {
 
   var product_id = +_thrive.product.idx
   var passthrough = _thrive.user.passthrough[product_id];
-  if (getCookie("_ga")) passthrough["ga"] = getCookie("_ga").substr(6);
-  if (getCookie2("_ga_")) passthrough["gas"] = getCookie2("_ga_").substr(6);
-  if (getCookie("_fbc")) passthrough["fbc"] = getCookie("_fbc");
-  if (getCookie("_ch_utm_source")) passthrough["_ch_utm_source"] = getCookie("_ch_utm_source");
-  if (getCookie("_ch_utm_medium")) passthrough["_ch_utm_medium"] = getCookie("_ch_utm_medium");
-  if (getCookie("_ch_utm_campaign")) passthrough["_ch_utm_campaign"] = getCookie("_ch_utm_campaign");
-  if (getCookie("_ch_utm_content")) passthrough["_ch_utm_content"] = getCookie("_ch_utm_content");
-  if (getCookie("_ch_utm_term")) passthrough["_ch_utm_term"] = getCookie("_ch_utm_term");
-  if (getCookie("_ch_utm_id")) passthrough["_ch_utm_id"] = getCookie("_ch_utm_id");
-  if (getCookie("first_utm_source")) passthrough["first_utm_source"] = getCookie("first_utm_source");
-  if (getCookie("first_utm_medium")) passthrough["first_utm_medium"] = getCookie("first_utm_medium");
-  if (getCookie("first_utm_campaign")) passthrough["first_utm_campaign"] = getCookie("first_utm_campaign");
-  if (getCookie("first_utm_content")) passthrough["first_utm_content"] = getCookie("first_utm_content");
-  if (getCookie("first_utm_term")) passthrough["first_utm_term"] = getCookie("first_utm_term");
-  if (getCookie("first_utm_id")) passthrough["first_utm_id"] = getCookie("first_utm_id");
-  if (getCookie("last_utm_source")) passthrough["last_utm_source"] = getCookie("last_utm_source");
-  if (getCookie("last_utm_medium")) passthrough["last_utm_medium"] = getCookie("last_utm_medium");
-  if (getCookie("last_utm_campaign")) passthrough["last_utm_campaign"] = getCookie("last_utm_campaign");
-  if (getCookie("last_utm_content")) passthrough["last_utm_content"] = getCookie("last_utm_content");
-  if (getCookie("last_utm_term")) passthrough["last_utm_term"] = getCookie("last_utm_term");
-  if (getCookie("last_utm_id")) passthrough["last_utm_id"] = getCookie("last_utm_id");
-  if (getQueryStringValue("cluid") || window?.CLabsgbVar?.generalProps?.uid) passthrough["cluid"] = getQueryStringValue("cluid") || CLabsgbVar.generalProps.uid;
+
+  if (window.self === window.top) {
+    // Code to be executed if the current page is the top level page - not in an iframe
+    if (getCookie("_ga")) passthrough["ga"] = getCookie("_ga").substr(6);
+    if (getCookie2("_ga_")) passthrough["gas"] = getCookie2("_ga_").substr(6);
+    if (getCookie("_fbc")) passthrough["fbc"] = getCookie("_fbc");
+    if (getCookie("_ch_utm_source")) passthrough["_ch_utm_source"] = getCookie("_ch_utm_source");
+    if (getCookie("_ch_utm_medium")) passthrough["_ch_utm_medium"] = getCookie("_ch_utm_medium");
+    if (getCookie("_ch_utm_campaign")) passthrough["_ch_utm_campaign"] = getCookie("_ch_utm_campaign");
+    if (getCookie("_ch_utm_content")) passthrough["_ch_utm_content"] = getCookie("_ch_utm_content");
+    if (getCookie("_ch_utm_term")) passthrough["_ch_utm_term"] = getCookie("_ch_utm_term");
+    if (getCookie("_ch_utm_id")) passthrough["_ch_utm_id"] = getCookie("_ch_utm_id");
+    if (getCookie("first_utm_source")) passthrough["first_utm_source"] = getCookie("first_utm_source");
+    if (getCookie("first_utm_medium")) passthrough["first_utm_medium"] = getCookie("first_utm_medium");
+    if (getCookie("first_utm_campaign")) passthrough["first_utm_campaign"] = getCookie("first_utm_campaign");
+    if (getCookie("first_utm_content")) passthrough["first_utm_content"] = getCookie("first_utm_content");
+    if (getCookie("first_utm_term")) passthrough["first_utm_term"] = getCookie("first_utm_term");
+    if (getCookie("first_utm_id")) passthrough["first_utm_id"] = getCookie("first_utm_id");
+    if (getCookie("last_utm_source")) passthrough["last_utm_source"] = getCookie("last_utm_source");
+    if (getCookie("last_utm_medium")) passthrough["last_utm_medium"] = getCookie("last_utm_medium");
+    if (getCookie("last_utm_campaign")) passthrough["last_utm_campaign"] = getCookie("last_utm_campaign");
+    if (getCookie("last_utm_content")) passthrough["last_utm_content"] = getCookie("last_utm_content");
+    if (getCookie("last_utm_term")) passthrough["last_utm_term"] = getCookie("last_utm_term");
+    if (getCookie("last_utm_id")) passthrough["last_utm_id"] = getCookie("last_utm_id");
+    if (getQueryStringValue("cluid") || window?.CLabsgbVar?.generalProps?.uid) passthrough["cluid"] = getQueryStringValue("cluid") || CLabsgbVar.generalProps.uid;
+  } else {
+    console.log('TC checkout is embedded');
+    var cluid = getQueryStringValue("cluid") || getQueryStringValue("passthrough['cluid']");
+    if (cluid) passthrough["cluid"] = cluid;
+  }
 });
 
 document.querySelectorAll('[class*="fields_control_next"] button').forEach(function (e) {
