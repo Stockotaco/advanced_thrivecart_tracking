@@ -1,0 +1,255 @@
+<script>
+  var cookies = {};
+  updateCookies();
+  var collectedParams = {};
+
+
+  getFbc(cookies);
+  getFbp(cookies);
+  getGa(cookies);
+  getGas(cookies);
+  getFs(cookies);
+  getCluid(cookies);
+
+  // Check for the necessary query string parameters or wait for 5 seconds
+  var timeout = 5000; // 5 seconds
+  var startTime = new Date().getTime();
+  var checkParamsInterval = setInterval(function () {
+    var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    if (collectedParams['cluid'] && collectedParams['_ga'] && collectedParams['gas'] || new Date().getTime() - startTime > timeout) {
+      clearInterval(checkParamsInterval);
+
+      // Build the div element
+      var divElement = document.createElement('div');
+      divElement.setAttribute('data-thrivecart-account', 'welcome');
+      divElement.setAttribute('data-thrivecart-tpl', 'v2');
+      divElement.setAttribute('data-thrivecart-product', '161');
+      divElement.setAttribute('class', 'thrivecart-embeddable');
+      divElement.setAttribute('data-thrivecart-embeddable', 'tc-welcome-161-2R1ME8');
+      divElement.setAttribute("data-thrivecart-querystring", convertToQueryString(collectedParams));
+
+      // Build the script element
+      var scriptElement = document.createElement('script');
+      scriptElement.setAttribute('async', '');
+      scriptElement.setAttribute('src', '//tinder.thrivecart.com/embed/v1/thrivecart.js');
+      scriptElement.setAttribute('id', 'tc-welcome-161-2R1ME8');
+
+      // Get the parent element
+      var parentElement = document.getElementById('thrivecartEmbed');
+
+      // Append the div and script elements to the parent element
+      parentElement.appendChild(divElement);
+      parentElement.appendChild(scriptElement);
+
+    }
+  }, 100);
+
+  function convertToQueryString(collectedParams) {
+    const queryArr = [];
+    for (const key in collectedParams) {
+      if (collectedParams.hasOwnProperty(key)) {
+        if (key === '_ga') {
+          queryArr.push(`_ga=${collectedParams[key]}`);
+          queryArr.push(`passthrough[gaid]=${collectedParams[key]}`);
+        } else if (key === 'cluid') {
+          queryArr.push(`cluid=${collectedParams[key]}`);
+          queryArr.push(`passthrough[cluid]=${collectedParams[key]}`);
+        } else if (key === 'fs') {
+          queryArr.push(`_fs=${collectedParams[key]}`);
+          queryArr.push(`passthrough[fs]=${collectedParams[key]}`);
+        } else {
+          queryArr.push(`passthrough[${key}]=${collectedParams[key]}`);
+        }
+      }
+    }
+    return queryArr.join('&');
+  }
+
+  function pollExactCookie(input) {
+    console.log('polling for ' + input);
+    var maxAttempts = 100;
+    var attempts = 0;
+    var intervalId = setInterval(() => {
+      attempts++;
+      var inputValue = cookies[input];
+
+      if (inputValue !== undefined || attempts >= maxAttempts) {
+        clearInterval(intervalId);
+        if (inputValue !== undefined) {
+          modifyAttribute(input, inputValue);
+        } else {
+          console.log(input + ' not found after ' + attempts + ' attempts');
+        }
+      }
+    }, 100);
+  }
+
+  function pollStartsWithCookie(input, keyname) {
+    console.log('polling for cookie starting with ' + input);
+    var maxAttempts = 100;
+    var attempts = 0;
+    var intervalId = setInterval(() => {
+      attempts++;
+      for (var cookieKey in cookies) {
+        if (cookieKey.startsWith(input)) {
+          clearInterval(intervalId);
+          var cookieValue = cookies[cookieKey];
+          modifyAttribute(keyname, cookieValue);
+          return;
+        }
+      }
+      if (attempts >= maxAttempts) {
+        clearInterval(intervalId);
+        console.log('Cookie starting with ' + input + ' not found after ' + attempts + ' attempts');
+      }
+    }, 100);
+  }
+
+  function pollStartsEndsWithCookie(startsWith, endsWith, newKeyName) {
+    console.log('polling for cookie starting with ' + startsWith + ' and ending with ' + endsWith);
+    var maxAttempts = 100;
+    var attempts = 0;
+    var intervalId = setInterval(() => {
+      attempts++;
+      for (var cookieKey in cookies) {
+        if (cookieKey.startsWith(startsWith) && cookieKey.endsWith(endsWith)) {
+          clearInterval(intervalId);
+          var cookieValue = cookies[cookieKey];
+          modifyAttribute(newKeyName, cookieValue);
+          return;
+        }
+      }
+      if (attempts >= maxAttempts) {
+        clearInterval(intervalId);
+        console.log('Cookie starting with ' + startsWith + ' and ending with ' + endsWith + ' not found after ' + attempts + ' attempts');
+      }
+    }, 100);
+  }
+
+  function updateCookies() {
+    var cookieString = document.cookie;
+    var cookieArray = cookieString ? cookieString.split(';') : [];
+
+    cookies = cookieArray.reduce(function (acc, cur) {
+      var nameValue = cur.trim().split('=');
+      acc[nameValue[0]] = nameValue[1];
+      return acc;
+    }, {});
+  }
+
+  var intervalId = setInterval(updateCookies, 100);
+
+  setTimeout(function () {
+    clearInterval(intervalId);
+  }, 10000);
+
+  function getFbc(source) {
+    var value;
+    if (source['_fbc']) {
+      console.log('source found using cookie value _fbc');
+      value = source['_fbc'];
+      modifyAttribute(`fbc`, value)
+    } else {
+      console.log('source not found for fbc. polling');
+      pollExactCookie('_fbc')
+    }
+  }
+
+  function getFbp(source) {
+    var value;
+    if (source['_fbp']) {
+      console.log('source found using cookie value _fbp');
+      value = source['_fbp'];
+      modifyAttribute(`fbp`, value)
+    } else {
+      console.log('source not found for fbp. polling');
+      pollExactCookie('_fbp')
+    }
+  }
+
+  function getGa(source) {
+    var value;
+    if (source['_ga']) {
+      console.log('source found using cookie value _ga');
+      value = source['_ga'].substring(6);
+      //modifyAttribute(`passthrough[ga]`, value);
+      modifyAttribute(`_ga`, value)
+    } else {
+      console.log('source not found for ga. polling');
+      pollExactCookie('_ga')
+    }
+  }
+
+  function getFs(source) {
+    var value;
+    if (source['_fs']) {
+      console.log('source found using cookie value _fs');
+      value = source['_fs'];
+      //modifyAttribute(`passthrough[fs]`, value);
+      modifyAttribute(`fs`, value);
+    } else {
+      console.log('source not found for fs. polling');
+      pollExactCookie('_fs')
+    }
+  }
+
+  function getGas(source) {
+    var value;
+    for (var key in source) {
+      if (key.startsWith('_ga_')) {
+        console.log('source found using cookie key _ga_');
+        value = source[key].substring(6);
+        modifyAttribute('gas', value);
+        return;
+      }
+    }
+    console.log('source not found for _ga_. polling');
+    pollStartsWithCookie('_ga_', 'gas');
+  }
+
+
+  function getCluid(cookies) {
+    var cluid;
+    for (var cookieName in cookies) {
+      if (cookieName.indexOf('cl') === 0 && cookieName.indexOf('_uid') === cookieName.length - 4) {
+        cluid = cookies[cookieName];
+        break;
+      }
+    }
+    if (cluid) {
+      console.log('cluid found: ', cluid);
+      //modifyAttribute('passthrough[cluid]', cluid);
+      modifyAttribute('cluid', cluid);
+    } else {
+      console.log('cluid not found, polling');
+      pollStartsEndsWithCookie('cl', '_uid', 'cluid');
+    }
+  }
+
+  function modifyAttribute(key, value) {
+    if (key) {
+      collectedParams[key] = value;
+    }
+  }
+
+// function modifyAttribute(key, value) {
+//     var divs = document.querySelectorAll('.thrivecart-embeddable');
+//     var queryStrings = [];
+
+//     for (var i = 0; i < divs.length; i++) {
+//         var div = divs[i];
+//         var existingQueryString = div.getAttribute('data-thrivecart-querystring');
+//         var queryString = '';
+
+//         if (existingQueryString) {
+//             queryString = existingQueryString + '&';
+//         }
+
+//         queryString += key + '=' + value;
+//         queryStrings.push(queryString);
+
+//         div.setAttribute('data-thrivecart-querystring', queryStrings.join('&'));
+//     }
+// }
+</script>
