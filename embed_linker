@@ -172,7 +172,7 @@
     var value;
     if (source['_ga']) {
       console.log('source found using cookie value _ga');
-      value = source['_ga'].substring(6);
+      value = source['_ga'];
       //modifyAttribute(`passthrough[ga]`, value);
       modifyAttribute(`_ga`, value)
     } else {
@@ -199,7 +199,7 @@
     for (var key in source) {
       if (key.startsWith('_ga_')) {
         console.log('source found using cookie key _ga_');
-        value = source[key].substring(6);
+        value = source[key];
         modifyAttribute('gas', value);
         return;
       }
