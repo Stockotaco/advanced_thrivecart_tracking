@@ -80,13 +80,16 @@ dataLayer.push({
 
 window.addEventListener('load', function () {
 
+  var cookies = {};
+  updateCookies();
+
   var product_id = +_thrive.product.idx
   var passthrough = _thrive.user.passthrough[product_id];
 
   if (window.self === window.top) {
     // Code to be executed if the current page is the top level page - not in an iframe
-    if (getCookie("_ga")) passthrough["ga"] = getCookie("_ga").substr(6);
-    if (getCookie2("_ga_")) passthrough["gas"] = getCookie2("_ga_").substr(6);
+    if (getCookie("_ga")) passthrough["gaid"] = getCookie("_ga");
+    if (getCookie2("_ga_")) passthrough["gas"] = getCookie2("_ga_");
     if (getCookie("_fbc")) passthrough["fbc"] = getCookie("_fbc");
     if (getCookie("_ch_utm_source")) passthrough["_ch_utm_source"] = getCookie("_ch_utm_source");
     if (getCookie("_ch_utm_medium")) passthrough["_ch_utm_medium"] = getCookie("_ch_utm_medium");
@@ -106,7 +109,7 @@ window.addEventListener('load', function () {
     if (getCookie("last_utm_content")) passthrough["last_utm_content"] = getCookie("last_utm_content");
     if (getCookie("last_utm_term")) passthrough["last_utm_term"] = getCookie("last_utm_term");
     if (getCookie("last_utm_id")) passthrough["last_utm_id"] = getCookie("last_utm_id");
-    if (getQueryStringValue("cluid") || window?.CLabsgbVar?.generalProps?.uid) passthrough["cluid"] = getQueryStringValue("cluid") || CLabsgbVar.generalProps.uid;
+    if (getQueryStringValue("cluid") || window?.CLabsgbVar?.generalProps?.uid || getCluid(cookies)) passthrough["cluid"] = getQueryStringValue("cluid") || CLabsgbVar.generalProps.uid || getCluid(cookies);
   } else {
     console.log('TC checkout is embedded');
     var cluid = getQueryStringValue("cluid") || getQueryStringValue("passthrough['cluid']");
@@ -148,4 +151,53 @@ function getQueryStringValue(key) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(key);
+}
+
+function getCluid(cookies) {
+  var cluid;
+  for (var cookieName in cookies) {
+    if (cookieName.indexOf('cl') === 0 && cookieName.indexOf('_uid') === cookieName.length - 4) {
+      cluid = cookies[cookieName];
+      break;
+    }
+  }
+  if (cluid) {
+    console.log('cluid found: ', cluid);
+    //modifyAttribute('passthrough[cluid]', cluid);
+    modifyAttribute('cluid', cluid);
+  } else {
+    console.log('cluid not found, polling');
+    pollStartsEndsWithCookie('cl', '_uid', 'cluid');
+  }
+}
+
+function updateCookies() {
+  var cookieString = document.cookie;
+  var cookieArray = cookieString ? cookieString.split(';') : [];
+
+  cookies = cookieArray.reduce(function (acc, cur) {
+    var nameValue = cur.trim().split('=');
+    acc[nameValue[0]] = nameValue[1];
+    return acc;
+  }, {});
+}
+
+function pollStartsEndsWithCookie(startsWith, endsWith, newKeyName) {
+  console.log('polling for cookie starting with ' + startsWith + ' and ending with ' + endsWith);
+  var maxAttempts = 100;
+  var attempts = 0;
+  var intervalId = setInterval(() => {
+    attempts++;
+    for (var cookieKey in cookies) {
+      if (cookieKey.startsWith(startsWith) && cookieKey.endsWith(endsWith)) {
+        clearInterval(intervalId);
+        var cookieValue = cookies[cookieKey];
+        return cookieValue;
+      }
+    }
+    if (attempts >= maxAttempts) {
+      clearInterval(intervalId);
+      console.log('Cookie starting with ' + startsWith + ' and ending with ' + endsWith + ' not found after ' + attempts + ' attempts');
+    }
+  }, 100);
 }
